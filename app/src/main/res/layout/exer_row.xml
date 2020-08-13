@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/exernumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/exerNumber"
+            android:textAlignment="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/exerciseDesc" />
+
+        <TextView
+            android:id="@+id/exerRowDesc"
+            android:layout_width="match_parent"
+            android:background="#CCFF6868"
+            android:layout_height="wrap_content"
+            android:text="@string/exerciseDesc" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/exerWarm" />
+
+        <TextView
+            android:id="@+id/exerRowWarn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCFF6868"
+            android:text="@string/exerWarm"
+            android:layout_marginBottom="20dp"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

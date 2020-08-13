@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/mealnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:text="Numer Posiłku" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:text="@string/meal_desc" />
+        <TextView
+            android:id="@+id/dietRowDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCFF6868"
+
+            android:text="@string/meal_desc" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mealwarn"
+            android:textColor="@color/black"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/dietRowWarn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#CCFF6868"
+            android:text="@string/mealwarn" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/weight"
+            android:textColor="@color/black"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/dietRowWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="#CCFF6868"
+            android:text="@string/weight" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
