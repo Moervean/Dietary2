@@ -3,17 +3,15 @@ package Activites;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 
@@ -27,12 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
-
-import Data.ExerRecyclerAdapter;
-import Model.Trening;
 
 public class ExerciseActivity extends AppCompatActivity {
     private EditText mealDesc;
@@ -45,6 +38,26 @@ public class ExerciseActivity extends AppCompatActivity {
     private FirebaseUser mUser;
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.mapView:
+                startActivity(new Intent(
+                        ExerciseActivity.this,
+                        MapsActivity.class
+                ));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

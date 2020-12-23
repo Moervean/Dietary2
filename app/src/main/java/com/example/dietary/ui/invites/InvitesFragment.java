@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,9 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.List;
 
-import Activites.addPersonActivity;
 import Data.AddTrainerRecyclerAdapter;
-import Model.Uzytkownik;
+import Model.User;
 
 public class InvitesFragment extends Fragment {
     private InvitesViewModel invitesViewModel;
@@ -40,7 +37,7 @@ public class InvitesFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private AddTrainerRecyclerAdapter listRecyclerAdapter;
-    private List<Uzytkownik> userList;
+    private List<User> userList;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         invitesViewModel =
@@ -66,7 +63,7 @@ public class InvitesFragment extends Fragment {
                     FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                            User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);

@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,6 +55,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private ImageView image;
     private Button accCreate;
     private ProgressDialog mProgress;
+    private EditText passConfirm;
     private int i = 0;
     public int secure = 1;
     private EditText nickname;
@@ -77,6 +77,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         accCreate = (Button) findViewById(R.id.createButton);
         mStorage = FirebaseStorage.getInstance().getReference().child("Profile_Pictures");
         mProgress = new ProgressDialog(this);
+        passConfirm = (EditText)findViewById(R.id.passConfirmET);
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -106,39 +107,38 @@ public class CreateAccountActivity extends AppCompatActivity {
                 mProgress.show();
                 final String nicknameString = nickname.getText().toString().trim();
 
-                if (!TextUtils.isEmpty(nicknameString)) {
+                final String pas = pass.getText().toString();
+                final String passConf = passConfirm.getText().toString();
+
+                if (!TextUtils.isEmpty(nicknameString) && !TextUtils.isEmpty(pas)) {
+                    if(pas.equals(passConf)) {
 
 
-                    Log.d("XDDDDDDD","NONO");
-                    mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            //TODO Zapisanie maila do bazy i sprawdzanie czy istnieje
+                        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                //TODO Zapisanie maila do bazy i sprawdzanie czy istnieje
 
-                            List<String> nazwy = new LinkedList<String>();
-                            Log.d("XDDDDDDD",String.valueOf(i));
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                if(dataSnapshot.child("nickname").getValue()!=null)
-                                nazwy.add(dataSnapshot.child("nickname").getValue().toString());
+                                List<String> nazwy = new LinkedList<String>();
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    if (dataSnapshot.child("nickname").getValue() != null)
+                                        nazwy.add(dataSnapshot.child("nickname").getValue().toString());
 
-                                Log.d("XDDDDDDD",String.valueOf(i));
 
-                            }
+                                }
 
                                 for (String nazwa : nazwy) {
-                                    Log.d("XDDDDDDD",String.valueOf(i));
-                                if (nazwa.equalsIgnoreCase(nicknameString)) {
-                                    Toast.makeText(CreateAccountActivity.this, "Nazwa użytkownika jest już zajęta", Toast.LENGTH_SHORT).show();
-                                    mProgress.dismiss();
-                                    i = 0;
-                                    Log.d("XDDDDDDD",String.valueOf(i));
-                                    break;
+                                    if (nazwa.equalsIgnoreCase(nicknameString)) {
+                                        Toast.makeText(CreateAccountActivity.this, "Nazwa użytkownika jest już zajęta", Toast.LENGTH_SHORT).show();
+                                        mProgress.dismiss();
+                                        i = 0;
+                                        break;
 
-                                } else {
+                                    } else {
 
-                                    i++;
-                                    Log.d("XDDDDDDDi",String.valueOf(i));
-                                }}
+                                        i++;
+                                    }
+                                }
 
 
                                 if (i == nazwy.size()) {
@@ -153,7 +153,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                         mAuth.createUserWithEmailAndPassword(email.getText().toString().trim(), pass.getText().toString().trim()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
                                             public void onSuccess(final AuthResult authResult) {
-                                                Log.d("XDDDDDDDnazwy","Działą");
+
                                                 final FirebaseUser us = mAuth.getCurrentUser();
 
                                                 us.sendEmailVerification()
@@ -161,10 +161,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    Map<String,String> uzytkownik = new HashMap<>();
+                                                                    Map<String, String> uzytkownik = new HashMap<>();
                                                                     if (authResult != null) {
-
-
 
 
                                                                         String myString = getResources().getString(R.string.emailVerificationGood);
@@ -172,7 +170,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                         String userid = mAuth.getCurrentUser().getUid();
                                                                         final DatabaseReference currentUserDb = mRef.child(userid);
                                                                         if (resultUri != null) {
-                                                                            Log.d("DZIALA","DZIALAM");
+
                                                                             final String[] myUri = new String[1];
                                                                             final StorageReference imagePath = mStorage.child(resultUri.getLastPathSegment());
                                                                             imagePath.putFile(resultUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -182,10 +180,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                                     imagePath.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                                                                                         @Override
                                                                                         public void onComplete(@NonNull Task<Uri> task) {
-                                                                                            if(task.isSuccessful()){
+                                                                                            if (task.isSuccessful()) {
                                                                                                 myUri[0] = task.getResult().toString();
-                                                                                                currentUserDb.child("nickname").setValue(nicknameString);
+                                                                                                String nick = nicknameString.substring(0,1).toUpperCase() + nicknameString.substring(1).toLowerCase();
+                                                                                                currentUserDb.child("nickname").setValue(nick);
                                                                                                 currentUserDb.child("image").setValue(myUri[0]);
+                                                                                                currentUserDb.child("priv").setValue("all");
                                                                                             }
                                                                                         }
                                                                                     });
@@ -195,13 +195,15 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
                                                                         } else {
-                                                                            uzytkownik.put("nickname",nicknameString);
-                                                                            uzytkownik.put("image","default");
+                                                                            String nick = nicknameString.substring(0,1).toUpperCase() + nicknameString.substring(1).toLowerCase();
+                                                                            uzytkownik.put("nickname", nick);
+                                                                            uzytkownik.put("image", "default");
+                                                                            uzytkownik.put("priv","all");
                                                                             currentUserDb.setValue(uzytkownik);
                                                                         }
 
 
-                                                                        Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+                                                                        Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                                                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                                                                         mProgress.dismiss();
@@ -213,7 +215,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                     }
                                                                 } else {
                                                                     mProgress.dismiss();
-                                                                    i=0;
+                                                                    i = 0;
                                                                     String myString = getResources().getString(R.string.emailVerificationError);
                                                                     Toast.makeText(CreateAccountActivity.this, myString, Toast.LENGTH_LONG).show();
                                                                 }
@@ -226,7 +228,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                             public void onFailure(@NonNull Exception e) {
                                                 Toast.makeText(CreateAccountActivity.this, "Email jest już w bazie", Toast.LENGTH_LONG).show();
                                                 mProgress.dismiss();
-                                                i=0;
+                                                i = 0;
                                             }
                                         });
 
@@ -239,16 +241,20 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 }
 
 
+                            }
 
-                        }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                            }
+                        });
+                    }else{
+                        Toast.makeText(CreateAccountActivity.this, getString(R.string.passEqualsError), Toast.LENGTH_LONG).show();
+                        i = 0;
+                        mProgress.dismiss();
+                    }
                 } else {
-                    Toast.makeText(CreateAccountActivity.this, "Pole nazwa użytkownika nie może być puste", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateAccountActivity.this, getString(R.string.nicknameError), Toast.LENGTH_LONG).show();
                     i = 0;
                     mProgress.dismiss();
                 }

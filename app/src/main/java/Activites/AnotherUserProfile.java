@@ -3,8 +3,6 @@ package Activites;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import Model.Uzytkownik;
+import Model.User;
 
 public class AnotherUserProfile extends AppCompatActivity {
     private ImageView anotherPict;
@@ -59,7 +57,7 @@ public class AnotherUserProfile extends AppCompatActivity {
         mRef.orderByChild("nickname").equalTo(s).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                User us = snapshot.getValue(User.class);
                 ID = snapshot.getKey();
                 Picasso.get().load(us.getImage()).into(anotherPict);
                 for(final DataSnapshot dataSnapshot : snapshot.getChildren()){

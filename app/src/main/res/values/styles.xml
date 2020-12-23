@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorDarkGreen</item>
-        <item name="colorPrimaryDark">@color/colorLightGreen</item>
+        <item name="colorPrimary">@color/PrimaryPink</item>
+        <item name="colorPrimaryDark">@color/PrimaryLightPink</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -15,5 +15,22 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="DialogFragmentTheme" parent="AppTheme">
+        <item name="colorPrimary">@color/PrimaryPink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
+    <style name = "TextStyle">
+        <item name = "android:textColor">@color/white</item>
+        <item name = "android:textSize">30dp</item>
+        <item name = "android:textStyle">bold</item>
+
+
+    </style>
 </resources>

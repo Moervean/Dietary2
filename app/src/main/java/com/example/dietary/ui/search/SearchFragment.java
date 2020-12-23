@@ -2,16 +2,13 @@ package com.example.dietary.ui.search;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,31 +19,32 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dietary.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import Activites.addPersonActivity;
-import Data.AddTrainerRecyclerAdapter;
 import Data.SearchAddRecyclerAdapter;
-import Model.Uzytkownik;
+import Model.User;
 
 public class SearchFragment extends Fragment {
     private SearchViewModel searchViewModel;
     private EditText nickname;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private DatabaseReference mRef;
     private RecyclerView recyclerView;
     private SearchAddRecyclerAdapter listRecyclerAdapter;
-    private List<Uzytkownik> userList;
+    private List<User> userList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +52,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_search,container,false);
         nickname = (EditText) view.findViewById(R.id.enterNickSearch);
         mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
         mDatabase= FirebaseDatabase.getInstance();
         mRef= mDatabase.getReference().child("users");
         recyclerView = (RecyclerView)view.findViewById(R.id.searchRV);
@@ -71,17 +70,64 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 userList = new LinkedList<>();
+                final List<String> friendsList = new LinkedList<>();
                 listRecyclerAdapter = new SearchAddRecyclerAdapter(getContext(), userList);
                 recyclerView.setAdapter(listRecyclerAdapter);
                 listRecyclerAdapter.notifyDataSetChanged();
-                mRef.orderByChild("nickname").startAt(nickname.getText().toString()).endAt(nickname.getText().toString() + "\uf8ff").addChildEventListener(new ChildEventListener() {
+                String nick;
+
+
+
+                if(!TextUtils.isEmpty(nickname.getText().toString())) {
+                    nick = nickname.getText().toString().substring(0, 1).toUpperCase() + nickname.getText().toString().substring(1).toLowerCase();
+                }
+                else{
+                    nick = "";
+                }
+
+
+                mRef.child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.d("Friends",snapshot.getKey());
+                        for(DataSnapshot dataSnapshot : snapshot.child("trenerzy").getChildren()){
+                            friendsList.add(dataSnapshot.getValue(String.class));
+                        }
+                        for(DataSnapshot dataSnapshot : snapshot.child("podopieczni").getChildren()){
+                            friendsList.add(dataSnapshot.getValue(String.class));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                mRef.orderByChild("nickname").startAt(nick).endAt(nick + "\uf8ff").addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                        Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                        User us = snapshot.getValue(User.class);
 
-                        userList.add(us);
+                        int check=0;
+                        if(snapshot.getKey().equals(mUser.getUid())){
 
+                        }else {
+                            for(String s : friendsList){
+                                Log.d("Friends",s);
+                                if(s.equals(snapshot.child("nickname").getValue(String.class))) {
+                                    check=1;
+                                    break;
+                                }
+
+
+                            }
+                            if(check==0)
+                            userList.add(us);
+
+                        }
                         listRecyclerAdapter = new SearchAddRecyclerAdapter(getContext(), userList);
                         recyclerView.setAdapter(listRecyclerAdapter);
                         listRecyclerAdapter.notifyDataSetChanged();

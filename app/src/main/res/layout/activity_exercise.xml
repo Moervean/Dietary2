@@ -4,29 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Activites.ExerciseActivity">
+    tools:context="Activites.ExerciseActivity"
+    android:background="@drawable/addworkoutpic">
 
 
     <EditText
         android:id="@+id/exerciseDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/transparent_rectangle"
         android:ems="10"
         android:hint="@string/exerciseDesc"
+        android:gravity="start"
+        android:padding="10dp"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        android:background="#CCFF6868"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline19" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
         android:id="@+id/exerciseWarnings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:hint="@string/dietWarning"
-        android:background="#0000"
+        android:padding="10dp"
+        android:gravity="start"
+        android:background="@drawable/transparent_rectangle"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +43,8 @@
         android:id="@+id/uploadExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/uploadDiet"
-        android:background="@drawable/buttonshapewhite"
+        android:text="@string/addWorkout"
+        android:background="@drawable/buttonshape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,15 +98,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="#CCFF6868"
-        app:layout_constraintTop_toBottomOf="@+id/exerciseWarnings" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

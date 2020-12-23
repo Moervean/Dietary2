@@ -16,24 +16,23 @@
 
         <ImageView
             android:id="@+id/addSearchImage"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:scaleType="fitXY"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            android:layout_width="10dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/addSearchNick"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_weight="5"
             android:text="TextView"
+            android:gravity="center"
             android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/addSearchAccept"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/baseline_person_add_black_18dp" />
 

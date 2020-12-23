@@ -10,6 +10,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -29,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Data.ExerRecyclerAdapter;
-import Model.Trening;
+import Model.Workout;
 
 public class ExerShow extends AppCompatActivity {
 
@@ -43,6 +46,30 @@ public class ExerShow extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatePicker picker;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.mapView:
+                startActivity(new Intent(
+                        ExerShow.this,
+                        MapsActivity.class
+                ));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +104,9 @@ public class ExerShow extends AppCompatActivity {
         mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Trening> dietList = new LinkedList<>();
+                List<Workout> dietList = new LinkedList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Trening diet = dataSnapshot.getValue(Trening.class);
+                    Workout diet = dataSnapshot.getValue(Workout.class);
 
                     dietList.add(diet);
                 }
@@ -102,9 +129,9 @@ public class ExerShow extends AppCompatActivity {
                 mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<Trening> dietList = new LinkedList<>();
+                        List<Workout> dietList = new LinkedList<>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Trening diet = dataSnapshot.getValue(Trening.class);
+                            Workout diet = dataSnapshot.getValue(Workout.class);
 
                             dietList.add(diet);
                         }

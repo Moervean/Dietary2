@@ -15,13 +15,13 @@ import com.example.dietary.R;
 
 import java.util.List;
 
-import Model.Trening;
+import Model.Workout;
 
 public class ExerRecyclerAdapter extends RecyclerView.Adapter<ExerRecyclerAdapter.ViewHolder> {
-    private List<Trening> exerList;
+    private List<Workout> exerList;
     private Context context;
 
-    public ExerRecyclerAdapter( Context context,List<Trening> exerList) {
+    public ExerRecyclerAdapter( Context context,List<Workout> exerList) {
         this.exerList = exerList;
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class ExerRecyclerAdapter extends RecyclerView.Adapter<ExerRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Trening tren = exerList.get(position);
+        Workout tren = exerList.get(position);
         holder.exernumber.setText(position + 1 + " trening");
         holder.exerWarn.setText(tren.getUwagi());
         holder.exerDesc.setText(tren.getOpis());

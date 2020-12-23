@@ -27,4 +27,5 @@
         android:name="com.example.dietary.ui.search.SearchFragment"
         android:label="SearchFragment" />
 
+
 </navigation>

@@ -1,8 +1,7 @@
 package Data;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +22,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
-import Model.Uzytkownik;
+import Model.User;
 
 public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRecyclerAdapter.ViewHolder> {
     private Context context;
-    private List<Uzytkownik> userList;
+    private List<User> userList;
     private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
@@ -40,7 +41,7 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
     private Button declineAdd;
 
 
-    public AddTrainerRecyclerAdapter(Context context, List<Uzytkownik> userList) {
+    public AddTrainerRecyclerAdapter(Context context, List<User> userList) {
         this.context = context;
         this.userList = userList;
 
@@ -56,7 +57,7 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
-        Uzytkownik trainer = userList.get(position);
+        final User trainer = userList.get(position);
 
         holder.trainerNick.setText(trainer.getNickname());
         Picasso.get().load(trainer.getImage()).into(holder.addTrainer);
@@ -71,13 +72,32 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
 
 
                         String s = snapshot.getKey();
+                        for(DataSnapshot dataSnapshot :snapshot.getChildren()){
+                            if(dataSnapshot.getKey().equals("nickname"))
+                                s=dataSnapshot.getValue(String.class);
+                        }
                         DatabaseReference podAdd = mRef.child(mAuth.getCurrentUser().getUid()).child("podopieczni");
-                        podAdd.push().setValue(s);
+                        podAdd.child(snapshot.getKey()).setValue(s);
 
-                        DatabaseReference coachAdd = mRef.child(s).child("trenerzy");
-                        coachAdd.push().setValue(mAuth.getCurrentUser().getUid());
+                        final DatabaseReference coachAdd = mRef.child(snapshot.getKey()).child("trenerzy");
+                        final String trainerID = snapshot.getKey();
 
-                        DatabaseReference removeRequest = FirebaseDatabase.getInstance().getReference().child("Friends_request").child(mUser.getUid()).child(s);
+                        mRef.child(mAuth.getCurrentUser().getUid()).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String trainerNickname = snapshot.getValue(String.class);
+
+                                coachAdd.child(mAuth.getCurrentUser().getUid()).setValue(trainerNickname);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+                        DatabaseReference removeRequest = FirebaseDatabase.getInstance().getReference().child("Friends_request").child(mUser.getUid()).child(trainerID);
                         removeRequest.setValue(null);
                         userList.remove(position);
 

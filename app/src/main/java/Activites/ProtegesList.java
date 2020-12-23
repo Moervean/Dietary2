@@ -3,9 +3,7 @@ package Activites;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -26,8 +24,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Data.ListRecyclerAdapter;
-import Model.Uzytkownik;
+import Data.ProtegeListRecyclerAdapter;
+import Model.User;
 
 public class ProtegesList extends AppCompatActivity {
 
@@ -35,11 +33,10 @@ public class ProtegesList extends AppCompatActivity {
     private FirebaseDatabase mDatabase;
     private FirebaseUser mUser;
     private RecyclerView recyclerView;
-    private ListRecyclerAdapter listRecyclerAdapter;
-    private List<Uzytkownik> userList;
+    private ProtegeListRecyclerAdapter protegeListRecyclerAdapter;
+    private List<User> userList;
     private FirebaseAuth mAuth;
     private int i =0;
-    private String TAG = "XDDDD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,25 +63,23 @@ public class ProtegesList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 final List<String> nazwy = new LinkedList<String>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
+                    Log.d("NAZWYY",dataSnapshot.getValue().toString());
                     nazwy.add(dataSnapshot.getValue().toString());
-
-
                 }
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
                 for(String nazwa : nazwy){
 
-                    reference.orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                    reference.orderByChild("nickname").equalTo(nazwa).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                            User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);
                             if(userList.size()==nazwy.size() ) {
-                                listRecyclerAdapter = new ListRecyclerAdapter(ProtegesList.this, userList);
-                                recyclerView.setAdapter(listRecyclerAdapter);
-                                listRecyclerAdapter.notifyDataSetChanged();
+                                protegeListRecyclerAdapter = new ProtegeListRecyclerAdapter(ProtegesList.this, userList);
+                                recyclerView.setAdapter(protegeListRecyclerAdapter);
+                                protegeListRecyclerAdapter.notifyDataSetChanged();
                             }
                         }
 
@@ -120,15 +115,15 @@ public class ProtegesList extends AppCompatActivity {
         });
     }
     public interface MyCallback {
-        void onCallback(List<Uzytkownik> value);
+        void onCallback(List<User> value);
     }
     public void readData(final MyCallback myCallback, String nazwa) {
         FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<Uzytkownik> usList = new ArrayList<>();
+                List<User> usList = new ArrayList<>();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren() ){
-                    Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                    User us = snapshot.getValue(User.class);
                     usList.add(us);
                 }
 

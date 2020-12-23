@@ -23,16 +23,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Data.ListRecyclerAdapter;
-import Model.Uzytkownik;
+import Data.ProtegeListRecyclerAdapter;
+import Data.TrainerListRecyclerViewAdapter;
+import Model.User;
 
 public class CoachesList extends AppCompatActivity {
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mDatabase;
     private FirebaseUser mUser;
     private RecyclerView recyclerView;
-    private ListRecyclerAdapter listRecyclerAdapter;
-    private List<Uzytkownik> userList;
+    private TrainerListRecyclerViewAdapter protegeListRecyclerAdapter;
+    private List<User> userList;
     private FirebaseAuth mAuth;
     private int i =0;
     @Override
@@ -62,25 +63,23 @@ public class CoachesList extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
 
                     nazwy.add(dataSnapshot.getValue().toString());
-                    Log.d("NAZWA", dataSnapshot.getKey());
-                    Log.d("NAZWA", dataSnapshot.getValue().toString());
 
 
                 }
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
                 for(String nazwa : nazwy){
 
-                    reference.orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                    reference.orderByChild("nickname").equalTo(nazwa).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                            User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);
                             if(userList.size()==nazwy.size() ) {
-                                listRecyclerAdapter = new ListRecyclerAdapter(CoachesList.this, userList);
-                                recyclerView.setAdapter(listRecyclerAdapter);
-                                listRecyclerAdapter.notifyDataSetChanged();
+                                protegeListRecyclerAdapter = new TrainerListRecyclerViewAdapter(CoachesList.this, userList);
+                                recyclerView.setAdapter(protegeListRecyclerAdapter);
+                                protegeListRecyclerAdapter.notifyDataSetChanged();
                             }
                         }
 

@@ -2,7 +2,7 @@ package Model;
 
 import java.util.List;
 
-public class Uzytkownik {
+public class User {
     private String nickname;
     private String image;
 
@@ -16,12 +16,12 @@ public class Uzytkownik {
         this.nickname = nickname;
     }
 
-    public Uzytkownik(String nickname, String image) {
+    public User(String nickname, String image) {
         this.nickname = nickname;
         this.image = image;
     }
 
-    public Uzytkownik() {
+    public User() {
     }
 
     public String getImage() {
@@ -32,7 +32,7 @@ public class Uzytkownik {
         this.image = image;
     }
 
-    public Uzytkownik(String nickname) {
+    public User(String nickname) {
         this.nickname = nickname;
     }
 }

@@ -1,6 +1,7 @@
 package Data;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +37,11 @@ public class DietRecyclerAdapter extends RecyclerView.Adapter<DietRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Diet diet = dietList.get(position);
 
+
         holder.mealWarn.setText(diet.getUwagi());
         holder.mealDesc.setText(diet.getOpis());
         holder.weight.setText(diet.getWaga());
+        holder.mealNumber.setText(context.getString(R.string.meal) + " " + (position+1));
 
     }
 
@@ -53,6 +56,7 @@ public class DietRecyclerAdapter extends RecyclerView.Adapter<DietRecyclerAdapte
         public TextView mealDesc;
         public TextView mealWarn;
         public TextView weight;
+        public TextView mealNumber;
 
         public ViewHolder(@NonNull View view, Context ctxt) {
             super(view);
@@ -61,6 +65,7 @@ public class DietRecyclerAdapter extends RecyclerView.Adapter<DietRecyclerAdapte
             mealDesc = (TextView)view.findViewById(R.id.dietRowDesc);
             mealWarn = (TextView)view.findViewById(R.id.dietRowWarn);
             weight = (TextView)view.findViewById(R.id.dietRowWeight);
+            mealNumber = (TextView)view.findViewById(R.id.mealnumber);
         }
     }
 }

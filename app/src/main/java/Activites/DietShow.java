@@ -10,7 +10,9 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -43,6 +45,26 @@ public class DietShow extends AppCompatActivity {
     private RecyclerView dietRV;
     private DatePicker datePicker;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.getInfo:
+                startActivity(new Intent(
+                        DietShow.this,
+                        InformationActivity.class
+                ));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +88,7 @@ public class DietShow extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DietShow.this,DietActivity.class));
+                startActivity(new Intent(DietShow.this, AddDietActivity.class));
                 finish();
             }
         });

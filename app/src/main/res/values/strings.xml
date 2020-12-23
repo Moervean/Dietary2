@@ -25,10 +25,10 @@
     <string name="userSearchNick">Podaj nazwę użytkownika</string>
     <string name="descriptionDiter">Opis posiłku</string>
     <string name="dietWarning">Uwagi</string>
-    <string name="uploadDiet">Dodaj wpis</string>
+    <string name="uploadDiet">Dodaj Posiłek</string>
     <string name="weight">Waga(kg)</string>
     <string name="exerciseDesc">Opis treningu</string>
-    <string name="addDiet">Dodaj wpis</string>
+    <string name="addDiet">Dodaj Posiłek</string>
     <string name="checkDiets">Wyświetl dietę</string>
     <string name="datePicker">Wybierz datę</string>
     <string name="exerView">Wyświetl trening</string>
@@ -59,4 +59,130 @@
     <string name="mealwarn">Uwagi do posiłku</string>
     <string name="exerNumber">Numer Treningu</string>
     <string name="exerWarm">Uwagi do treningu</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="map_key">AIzaSyDzdWP0J9qe4I6TvdBQao0bKPC25k7m_O0</string>
+    <string name="nav_map">Siłownie w pobliżu</string>
+    <string name="localisationPremission">Pozwól na dostęp do lokalizacji</string>
+    <string name="macros">Makroskładniki</string>
+    <string name="diet_basics">Podstawy diety</string>
+    <string name="exercisesInfo">Ćwiczenia</string>
+    <string name="workoutBasics">Podstawy treningu</string>
+    <string name="info">"Informacje "</string>
+    <string name="close">Wyjdź</string>
+    <string name="workoutInfo">
+        Podstawy treningu\n\n\n
+        Najważniejszą czynnością przed przystąpieniem do treningu jest określenie celów, aby odpowiednio dobrać ćwiczenia
+długość ich trwania, częstotliwość oraz liczbę serii i powtórzeń na treningach siłowych. Kiedy ustalimy cele
+przechodzimy do tworzenia planu treningowego tutaj mamy pełno gotowych planów na internecie dostosowanych do
+poziomu zaawansowania, możemy poprosić znajomego o pomoc lub wykupić profesjonalny pakiet u wielu zawodowych
+sportowców oferujących takie usługi. Następnie musimy nauczyć się prawdiłowej techniki wykonywanych ćwiczeń,
+ponieważ wykonując ćwiczenia z nieodpowiednią techniką narażamy się na wiele kontuzji i urazów. Już na samym
+treningu warto pamiętać o odpowiednim nawodnieniu organizmu oraz rozgrzewce przed przystąpieniem do treningu
+właściwego. W trakcie każdego ćwiczenia najważniejszą częscią będzie odpowiednia technika oddychania. Dzięki temu
+nasz trening stanie się łatwiejszy jednocześnie będac znacznie bardziej efektywniejszym. Po skończonym treningu
+powinniśmy uzupełnić stracone makroskładniki i do 30 minut po treningu przyjąć porcję węglowodanów, aby odzyskać
+utraconą energię oraz białka, aby mięśnie mogły się zregenerować. Ważna jest, także odpowiednia ilość i jakość snu,
+ponieważ to właśnie w czasie snu organizm ma największą szansę na zregerowanie sił oraz odbudowę uszkodzonych
+partii mięsniowych.
+    </string>
+    <string name="macrosInfo">Węglowodany\n\n\n
+
+To główne zródło energii dla organizmów. W diecie człowieka powinny stanowić około  50-70% kalorii
+spożywanych w ciągu dnia, 1 gram węglowodanów dostarcza 4 kalorie, z tego wynika, że w diecie przeciętnego człowieka
+powinno się spożywać ok. 250-350g. Węglowodany wspierają pracę mózgu oraz biorą czynny udział w spalaniu tłuszczu.
+Ich niedobór objawia się często chronicznym zmęczeniem, drażliwością, brakiem sił oraz uczuciem głodu.\n\n\n
+
+
+
+Tłuszcz\n\n\n
+
+Pomimo złej sławy tego makroskładnika wynikającego z braku informacji spożywanie zbyt małej ilości tłuszczu niesie
+za sobą wiele konsekwencji. To w tłuszczu rozpusza się wiele z potrzebnych nam witamin oraz odpowiada on za naszą
+gospodarkę hormonalną. Zbyt mała jego ilość w diecie może skutkować niepłodnością oraz wszelki choroby spododowane
+niedoborem witamin jak kurza ślepota czy zaburzenia krzepnięcia. Tłuszcze, obok węglowodanów, są główym substratem
+energetycznym dla ludzi. 1 gram tłuszczu dostarczy nam 9 kcal, a ich  minimalny udział w diecie powininen stanowić
+15%, a optymalną wartością jest dostarczanie 25-30% dziennego zapotrzebowania kalorycznego.\n\n\n
+
+
+
+Białko\n\n\n
+
+Białko jest głównym budulcem mięsni w naszym organiźmie. Dużo potrzebujemy go w okresach rozwoju organizmu, aby
+budować nowe tkanki oraz zadbać o wzrost ciała. Dlatego jego ilość w diecie musimy dostosować do własnych potrzeb.
+Szacuje się, że przeciętny człowiek powinien spożywac około gram białka na kilogram masy ciała, jednak osoby
+odchudzające się powinny zwiększyć tą dawkę do 1.2 grama. Zupełenie inna sprawa jeśli jesteśmy osobą trenującą,
+wtedy warto zwiększyć ilość białka w diecie aby zapewnić poprawny rozwój i regenerację mięśni i tak osoby trenujące
+wytrzymałościowo powinny dostarczać ok 1.5g biała na kilogram maszy ciała, a osoby trenujące siłowo nawet do 2g.
+Niedobór białka może spowodować niedokrwistość, mniejszą odporność i gorszą tolerancję na substancje szkodliwe.\n\n\n
+    </string>
+    <string name="dietInfo">
+        Podstawy Diety\n\n\n
+Zacznijmy od tego, że terminy dieta nie oznacza metody na odchudzanie, a określa nasz sposób żywienia.
+Podstawą każdej diety są dobrze dobrane kalorie oraz makroskładniki. To właśnie dzięki zastosowaniu odpowiedniej
+ilości kalorii w codziennych posiłkach możemy manipulować odpowiednio swoją masą ciała, pomimo atakowania nas z
+każdej strony informacjami czego nie możemy jesć w diecie, żeby schudnąć nie jest to kluczowy aspekt odżywiania
+możemy jeść co i ile chcemy o ile zmieścimy się w naszym bilansie kalorycznym. Jeśli chcemy schudnąć nie musimy
+odstawiać słodyczy czy białego pieczywa, a jedynie zadbać o to by dobowy bilans kaloryczny był poniżej naszego
+zapotrzebowania. Natomiast jeśli chcemy przytyć musimy jedynie sprawić, aby ten bialns kaloryczny był powyżej
+naszego zapotrzebowania. Dobrze dobrana dieta powinna też uwzględniać odpowiednie zapotrzebowanie na makro i
+mikro składniki znajdujące się w pożywieniu. Codzienna porcja owoców i warzyw pozwoli, także zadbać o wiele
+witaminy potrzebnych naszemu organizmowi do codziennego funkcjonowania. Do diety warto dołożyc, także odpowiednie
+ćwiczenia, aby wspomóc efekty stosowanej przez nas diety.\n\n\n
+Więc jak policzyć nasz bilans kaloryczny i skąd się on bierze?\n\n\n
+Każdy organizm potrzebuje energii, którą będzie w stanie podtrzymywać podstawowe czynności życiowe jak praca
+narządów, oddychanie, trawienie itp. Oprócz tego dochodzi sprawa codziennej spontanicznej aktywności wszelkie
+spacery, bieganie, trening sprawia, że nasze zapotrzebowanie rośnie poprzez zwiększoną ilość "spalanych" kalorii
+w ciągu dnia. Jednym z wielu wzorów do policzenia naszego dziennego zapotrzebowania kalorycznego jest
+pomnożenie naszej wagi o 24 oraz otrzymany wynik przemnożony dodatkowo o 1-2 w zależności od ilości
+aktywności fizycznej i tak mnożymy przez:
+1- brak aktywności fizycznej,
+1.2- praca siedząca oraz lekka aktywność fizyczna,
+1.4- praca siedząca oraz trening 2 razy w tygodniu,
+1,6- lekka praca fizyczna oraz trening 3-4 razy w tygodniu,
+1,8- praca fizyczna oraz trening 5 razy w tygodniu,
+2 - praca fizyczna oraz codzienny trening.
+Dla przykładu osoba o wadzę 80kg i pracy biurowej, który trenuje 2 razy w tygodniu powinnien dziennie spożywać ok.
+80*24*1,4=2688 kalorii. Warto jednak pamiętać, że jest to tylko teoretyczny wzór i na jego podstawie możemy
+jedynie mniej więcej oszacować nasze zapotrzebowanie. Dokładne zapotrzebowanie najlepiej sprawdzić w praktyce,
+zobaczyć czy masa utrzymuje się nam czy jednak się zwiększa bądź zmniejsza i na tej podstawie dodawać, albo
+obniżać kalorię w diecie.\n\n\n
+    </string>
+    <string name="squats">Przysiady</string>
+    <string name="squatsDesc">Pozycja wyjściowa - stajemy w lekkim rozkroku ze sztangą na barkach. Spinamy pośladki, brzuch oraz ściągamy łopatki. Powoli wykonujemy ruch przypominający siadanie na krześle
+    wyprowadzając go z bioder, trzymając ciągle spięty brzuch oraz ściągnięte łopatki, aby utrzymywać ciągle proste plecy. Dochodzimy do momentu, w którym uda i łydki stworzą kąt ok.90 stopni, po czym wracam do pozycji wyjściowej dopinając pośladki. Podczas całego ruchu stopy trzymamy na pewnym,
+    płaskim podłożu, a kolana powinny być skierowane na zewnątrz. </string>
+    <string name="squatsURL">https://www.youtube.com/watch?v=Wv7KejSwEvQ</string>
+    <string name="showVideo">Film z poprawną techniką</string>
+    <string name="deadlift">Martwy Ciąg</string>
+    <string name="deadliftDesc">Pozycja wejściowa - stajemy w rozkroku, pochylamy się w biodrach lekko schodząc na kolanach, łapiemy sztangę lęzącą na ziemi lekko szerzej, niż nasza szerokość barków. Spinamy
+    brzuch oraz zaczynami podnosić sztangę zaczynając ruch od kolan. Kiedy sztanga minie linie kolan zaczynamy prostować biodra. Ruch kończymy w pełnym wyproście, ze spiętymi pośladkami oraz lekko ściagniętymi
+    łopatkami. Tak jak w przysadach ważne aby podczas całego ruchu trzymać spięty brzuch, aby utrzymywać proste plecy.</string>
+    <string name="deadliftURL">https://www.youtube.com/watch?v=0_igODjLiXM</string>
+    <string name="benchpress">Wyciskanie</string>
+    <string name="benchpressDesc">Pozycja wyjściowa - leżymy na plecach na ławce trzymając nad sobą sztangę na szerokości barków, ściągamy łopatki i spinamy brzuch.
+        "Wkręcamy" ręcę w sztangę rozpoczynamy ruch zginająć łokcie, prowadząc je jak nabliżej ciała. Sztangę opuszczamy na wysokość dolnej części klatki piersiowej ruch w dół wykonujemy spokojnie, powoli
+    jednocześnie wdychając powietrze. W momencie styku sztangi z klatką piersiową zaczynamy ruch w górę, który powinien być bardziej dynamiczny, niż ruch opuszczania podczas ruchu w góre wypuszczamy powietrze.</string>
+    <string name="benchpressURL">https://www.youtube.com/watch?v=vqs1M9fvisg</string>
+    <string name="ohp">OHP</string>
+    <string name="ohpDesc">Pozycja wyjściowa - stoimy w lekkim rozkroku, trzymając sztangę przed sobą na wysokości barków, ściągamy łopatki, spinamy brzuch oraz pośladki. Zaczynamy prostować łokcie, unosząc
+    sztangę do góry, aż do pełnego wyprostu, łokcie powinny być prowadzone jak najbliżej ciała, aby chronić staw barkowy przed niepoprawnym ułożeniem. W czasie ruchu w górę wydychamy powietrze, a opuszczjąc
+    sztangę robimy wdech.</string>
+    <string name="ohpURL">https://www.youtube.com/watch?v=zQRcZjp3ZVI</string>
+    <string name="meal_added">Dodano posiłek</string>
+    <string name="meal">Posiłek</string>
+    <string name="addWorkout">Dodaj Trening</string>
+    <string name="blankWorkoutError">Pole \'Opis Treningu\' nie może być puste</string>
+    <string name="passwordConfirm">Potwierdź hasło</string>
+    <string name="passEqualsError">Hasła nie są identyczne</string>
+    <string name="nicknameError">Pola nazwa użytkownika oraz hasło nie mogą być puste</string>
+    <string name="blankDietError">Pole \'Opis Posiłku\' nie może być puste</string>
+    <string name="map">Mapa</string>
+    <string name="userAdded">Dodano użytkownika</string>
+    <string name="userRemoveConfirm">Jesteś pewny, że chcesz usunąć tą osobę?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="removeFriend">Usuń znajomego</string>
+    <string name="oldPassword">Stare hasło</string>
+    <string name="newPassword">Nowe hasło</string>
+    <string name="newPasswordConfirm">Potwierdź hasło</string>
 </resources>

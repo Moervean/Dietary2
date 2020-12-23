@@ -144,9 +144,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
-
         android:background="@drawable/elipse"
         android:orientation="vertical"
         android:gravity="center">
@@ -154,8 +151,8 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilePicture"
             android:layout_width="130dp"
-            android:layout_marginTop="10dp"
             android:layout_height="130dp"
+            android:layout_marginTop="10dp"
 
             android:src="@drawable/basic_photo"
             app:civ_border_color="#FFFFFF"
@@ -210,7 +207,7 @@
             android:background="#11000000"
             android:drawableLeft="@drawable/lock"
             android:ems="10"
-            android:hint="@string/password"
+            android:hint="@string/passwordConfirm"
             android:inputType="textPersonName"
             android:textSize="15dp" />
 

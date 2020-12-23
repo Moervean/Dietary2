@@ -3,18 +3,16 @@ package Activites;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,14 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Date;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
-import Data.DietRecyclerAdapter;
-import Model.Diet;
-
-public class DietActivity extends AppCompatActivity {
+public class AddDietActivity extends AppCompatActivity {
     private EditText mealDesc;
     private EditText mealWarn;
     private Button mealUpload;
@@ -55,11 +48,32 @@ public class DietActivity extends AppCompatActivity {
 
     private CheckBox weightCheck;
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu,menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.getInfo:
+                startActivity(new Intent(
+                        AddDietActivity.this,
+                        InformationActivity.class
+                ));
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet2);
+        setContentView(R.layout.activity_add_meal);
 
 
         Locale.setDefault(Locale.ENGLISH);
@@ -85,7 +99,7 @@ public class DietActivity extends AppCompatActivity {
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DietActivity.this,DietShow.class));
+                startActivity(new Intent(AddDietActivity.this,DietShow.class));
                 finish();
             }
         });
@@ -107,6 +121,10 @@ public class DietActivity extends AppCompatActivity {
                         mRef.child(posilek).child("opis").setValue(desc);
                         mRef.child(posilek).child("uwagi").setValue(warn);
                         mRef.child(posilek).child("waga").setValue(wei);
+                        mealDesc.setText("");
+                        mealWarn.setText("");
+                        weight.setText("");
+                        Toast.makeText(AddDietActivity.this,getString(R.string.meal_added),Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

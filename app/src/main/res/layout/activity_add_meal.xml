@@ -4,52 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Activites.DietActivity">
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#CCFF6868"
-        app:layout_constraintBottom_toTopOf="@+id/guideline21"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline20" />
+    tools:context="Activites.AddDietActivity"
+    android:background="@drawable/meal">
+
+
+
 
     <EditText
         android:id="@+id/exerciseDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#0000"
+        android:background="@drawable/transparent_rectangle"
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:hint="@string/descriptionDiter"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLines ="4"
-        android:maxLength ="2000"
+        android:maxLength="2000"
+        android:gravity="start"
+        android:padding="10dp"
         android:textAlignment="textStart"
-        app:layout_constraintBottom_toTopOf="@+id/guideline22"
+        app:layout_constraintBottom_toTopOf="@+id/guideline21"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline21" />
+        app:layout_constraintTop_toBottomOf="@+id/radiogroup"
+        android:layout_margin="10dp"
+        />
 
     <EditText
         android:id="@+id/exerciseWarnings"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#CCFF6868"
+        android:background="@drawable/transparent_rectangle"
+        android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:clickable="true"
         android:hint="@string/dietWarning"
+        android:gravity="start"
+        android:padding="10dp"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLines ="4"
-        android:maxLength ="2000"
-        app:layout_constraintBottom_toTopOf="@+id/guideline23"
+        android:maxLength="512"
+        app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline22" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline21"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_margin="10dp"/>
 
     <Button
         android:id="@+id/uploadExercise"
@@ -67,27 +69,24 @@
         android:id="@+id/weight"
         android:layout_width="70dp"
         android:layout_height="41dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:ems="10"
         android:inputType="numberDecimal"
         android:maxLength="5"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/guideline21"
+        app:layout_constraintBottom_toTopOf="@+id/guideline23"
         app:layout_constraintStart_toEndOf="@+id/weightTV"
-        app:layout_constraintTop_toTopOf="@+id/guideline20"
-        app:layout_constraintVertical_bias="0.518" />
+        app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
     <TextView
         android:id="@+id/weightTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="40dp"
         android:text="@string/weight"
-        app:layout_constraintBottom_toTopOf="@+id/guideline21"
+        app:layout_constraintBottom_toTopOf="@+id/guideline23"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline20"
-        app:layout_constraintVertical_bias="0.187" />
+        app:layout_constraintTop_toTopOf="@+id/guideline22" />
 
     <RadioGroup
         android:id="@+id/radiogroup"
@@ -124,12 +123,13 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.2" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.40218878" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline22"
         android:layout_width="wrap_content"

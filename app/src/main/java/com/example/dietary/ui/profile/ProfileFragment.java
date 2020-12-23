@@ -24,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 
 import Activites.CoachesList;
-import Activites.DietActivity;
+import Activites.AddDietActivity;
 import Activites.ExerciseActivity;
 import Activites.ProtegesList;
 
@@ -51,7 +51,7 @@ public class ProfileFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout.activity_profile, container, false);
+        View root = inflater.inflate(R.layout.activity_main_screen, container, false);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mStorage = FirebaseStorage.getInstance();
@@ -75,7 +75,7 @@ public class ProfileFragment extends Fragment {
         diet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), DietActivity.class));
+                startActivity(new Intent(getActivity(), AddDietActivity.class));
             }
         });
         coaches.setOnClickListener(new View.OnClickListener() {

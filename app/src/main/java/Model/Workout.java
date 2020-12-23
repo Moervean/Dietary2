@@ -1,10 +1,10 @@
 package Model;
 
-public class Trening {
+public class Workout {
     private String opis;
     private String uwagi;
 
-    public Trening() {
+    public Workout() {
     }
 
     public String getOpis() {
@@ -23,7 +23,7 @@ public class Trening {
         this.uwagi = uwagi;
     }
 
-    public Trening(String opis, String uwagi) {
+    public Workout(String opis, String uwagi) {
         this.opis = opis;
         this.uwagi = uwagi;
     }

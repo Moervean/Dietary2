@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Data.AddTrainerRecyclerAdapter;
-import Model.Uzytkownik;
+import Model.User;
 
 public class addPersonActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class addPersonActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private AddTrainerRecyclerAdapter listRecyclerAdapter;
-    private List<Uzytkownik> userList;
+    private List<User> userList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class addPersonActivity extends AppCompatActivity {
                     FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                            Uzytkownik us = snapshot.getValue(Uzytkownik.class);
+                            User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);

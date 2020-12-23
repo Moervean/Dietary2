@@ -33,7 +33,7 @@ public class StartActivity extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                Intent intent = new Intent(StartActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -46,4 +46,5 @@ public class StartActivity extends AppCompatActivity {
         });
 
     }
+
 }

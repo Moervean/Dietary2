@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.example.dietary.R;
@@ -28,7 +26,7 @@ import java.util.List;
 import java.util.Locale;
 
 import Data.ExerRecyclerAdapter;
-import Model.Trening;
+import Model.Workout;
 
 public class AnotherExerActivity extends AppCompatActivity {
     private DatePicker datePicker;
@@ -62,9 +60,9 @@ public class AnotherExerActivity extends AppCompatActivity {
         mRef.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Trening> dietList = new LinkedList<>();
+                List<Workout> dietList = new LinkedList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Trening diet = dataSnapshot.getValue(Trening.class);
+                    Workout diet = dataSnapshot.getValue(Workout.class);
 
                     dietList.add(diet);
                 }
@@ -87,9 +85,9 @@ public class AnotherExerActivity extends AppCompatActivity {
                 mRef.child(data).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<Trening> dietList = new LinkedList<>();
+                        List<Workout> dietList = new LinkedList<>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            Trening diet = dataSnapshot.getValue(Trening.class);
+                            Workout diet = dataSnapshot.getValue(Workout.class);
 
                             dietList.add(diet);
                         }

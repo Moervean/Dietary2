@@ -9,8 +9,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,7 +33,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 
-import Model.Uzytkownik;
+import Model.User;
 
 public class ProfileActivity extends AppCompatActivity {
     private ImageView navButton;
@@ -57,10 +55,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_main_screen);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mStorage = FirebaseStorage.getInstance();
@@ -84,7 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         diet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this,DietActivity.class));
+                startActivity(new Intent(ProfileActivity.this, AddDietActivity.class));
             }
         });
         coaches.setOnClickListener(new View.OnClickListener() {
@@ -170,8 +169,8 @@ public class ProfileActivity extends AppCompatActivity {
         mRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Uzytkownik uzytkownik = snapshot.getValue(Uzytkownik.class);
-                if (uzytkownik.getImage() != "default") {
+                User user = snapshot.getValue(User.class);
+                if (user.getImage() != "default") {
 
 
                 } else {

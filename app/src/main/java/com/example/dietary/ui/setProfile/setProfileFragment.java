@@ -108,7 +108,6 @@ public class setProfileFragment extends Fragment {
         mRef.child("priv").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("VALUE123",snapshot.getValue().toString());
                 if(snapshot.getValue().toString().equals("all")){
                     all.setBackground(getResources().getDrawable(R.drawable.buttonshape));
                     friends.setBackground(getResources().getDrawable(R.drawable.buttonshapewhite));
