@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dietary</string>
+    <string name="Email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="signout">Sign Out</string>
+    <string name="search">Search</string>
+    <string name="firstname">Firstname</string>
+    <string name="lastname">Lastname</string>
+    <string name="passError">Password should have at lest 6 signs.</string>
+    <string name="blankError">Email and password can not be blank.</string>
+    <string name="createAccountAction">Creating account...</string>
+    <string name="emailVerificationError">Error while sending verification mail.</string>
+    <string name="emailVerificationGood">Verification mail send at:</string>
+    <string name="loginError">Email or password incorrect</string>
+    <string name="noEmailVerification">Email was not verified</string>
+    <string name="profileOptions">Profile Settings</string>
+    <string name="coaches">Coaches</string>
+    <string name="proteges">Proteges</string>
+    <string name="diet">Diet</string>
+    <string name="exercises">Workout</string>
+    <string name="nick">Nickname</string>
+    <string name="userSearch">User Search</string>
+    <string name="userSearchNick">Write user nickname</string>
+    <string name="descriptionDiter">Meal description</string>
+    <string name="dietWarning">Warnings</string>
+    <string name="uploadDiet">Add Meal</string>
+    <string name="weight">Weight(kg)</string>
+    <string name="exerciseDesc">Workout description</string>
+    <string name="addDiet">Add Meal</string>
+    <string name="checkDiets">Show diet</string>
+    <string name="datePicker">Pick date</string>
+    <string name="exerView">Show workout</string>
+    <string name="addExer">Add workout</string>
+    <string name="logowanie">Logging</string>
+    <string name="title_activity_nav_drawer">NavDrawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_home">Main Screen</string>
+    <string name="passRes">Reset password</string>
+    <string name="nickChange">Change nickname</string>
+    <string name="invites">Invites</string>
+    <string name="profile">Profile</string>
+    <string name="noone">Noone</string>
+    <string name="friends">Friends</string>
+    <string name="all">All</string>
+    <string name="meal_desc">Meal description</string>
+    <string name="mealwarn">Meal warnings</string>
+    <string name="exerNumber">Workout number</string>
+    <string name="exerWarm">Workout warniings</string>
+    <string name="macros">Macronutrients</string>
+    <string name="diet_basics">Diet basics</string>
+    <string name="exercisesInfo">Exercises</string>
+    <string name="workoutBasics">Workout basics</string>
+    <string name="info">Informations</string>
+    <string name="close">Close</string>
+    <string name="showVideo">Video with the correct techniqe</string>
+    <string name="deadlift">Deadlift</string>
+    <string name="benchpress">Benchpress</string>
+    <string name="ohp">OHP</string>
+    <string name="meal_added">Meal added</string>
+    <string name="meal">Meal</string>
+    <string name="addWorkout">Add Workout</string>
+    <string name="blankWorkoutError">Workout description can not be blank</string>
+    <string name="passwordConfirm">Confirm password</string>
+    <string name="passEqualsError">Passwords are not the same</string>
+    <string name="nicknameError">Nickname and password can not be blank</string>
+    <string name="blankDietError">Meal description can not be blank</string>
+    <string name="map">Map</string>
+    <string name="userAdded">User added</string>
+    <string name="userRemoveConfirm">Are you sure you want to delete this person?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="removeFriend">Delete friend</string>
+    <string name="oldPassword">Old password</string>
+    <string name="newPassword">New password</string>
+    <string name="newPasswordConfirm">Confirm password</string>
+    <string name="localisationPremission">" Allow access to the location"</string>
+    <string name="workoutInfo">Training Basics\n\n\n
+        The most important thing before starting training is to set goals to properly choose the exercises, their duration, frequency, and the number of series and repetitions in training. When we have our goals set, we must create a training plan, we have a lot of ready plans on the Internet adapted to the level of advancement, we can ask a friend for help or buy a professional plan from professional athlete offering such services. Then we must learn the correct technique of the exercises, because by performing the exercises with the wrong technique, we risk many injuries. Already at the training itself, it is worth remembering about proper hydration of the body and warm-up before starting the proper training. Proper breathing technique will be the most important part of any exercise, becouse of that, our training will become easier and at the same time be much more effective. After training, we should replenish the lost macronutrients and take a portion of carbohydrates up to 30 minutes after training to recover the lost energy and proteins, so that the muscles can regenerate. It is also important to have the right amount and quality of sleep, because during sleep body has the best chance of rebuilding its strength damaged muscle parts.</string>
+    <string name="macrosInfo">  Carbohydrates\n\n\n
+        They are the main source of energy for organisms. In the human diet, they should constitute about 50-70% of the calories consumed during the day, 1 gram of carbohydrates provides 4 calories, hence the average human should consume about 250-350 g carbohydrates per day. Carbohydrates support the work of the brain and take an active part in fat burning. Their deficiency is often manifested by chronic fatigue, irritability, lack of strength and a feeling of hunger.\n\n\n
+        Fat\n\n\n
+        Despite the bad reputation of this macronutrient due to a lack of information, eating too little fat has many consequences. In fat many of the vitamins we need are dissolved also fat is responsible for our hormonal balance. Too little of it in the diet may result in infertility and any diseases caused by vitamin deficiency, such as night blindness or coagulation disorders. Fats, next to carbohydrates, are the main energy substrate for humans. 1 gram of fat will provide us 9 kcal, and their minimum part in the diet should be 15%, and the optimal value is to provide 25-30% of the daily caloric requirement.\n\n\n
+        Protein\n\n\n
+        Protein is the main building block of muscles in our body. We need a lot of it during growth of organism to build new tissues and take care of height of the body. Therefore, we must adjust its amount in the diet to our own needs. It is estimated that the average person should consume about one gram of protein per kilogram of body weight, but people who want lose weight should increase this dose to 1.2 grams. A completely different matter if we train regularly, then it is worth increasing the amount of protein in the diet to ensure proper growth and regeneration of muscles, and so endurance trainers should provide about 1.5g of white per kilogram of body weight, and people doing stenght training to 2g. Protein deficiency can cause anemia, decreased immunity and poorer tolerance to harmful substances.</string>
+
+    <string name="squats">Squats</string>
+    <string name="squatsDesc">Starting position - we stand slightly apart with the barbell on the shoulders. We tense buttocks, abdomen and pull off shoulder blades. We slowly make a chair-sitting-like motion, bringing it out of our hips, keeping our abdomen tense and shoulder blades pulled down to keep our back still straight. We come to the point where the thighs and calves form an angle of about 90 degrees, and then return to the starting position, tensing buttocks. Keep your feet on a flat surface throughout the movement, and your knees should be pointing outwards.</string>
+    <string name="deadliftDesc">Starting position - we step apart, lean down at the hips, slightly descending on the knees, catch the barbell lying on the ground slightly wider than our shoulder width. We tense the abdomen and start to lift the barbell, starting the movement from our knees. When the barbell passes the knee line, we begin to straighten the hips. We end the movement in full extension, with tense buttocks and slightly tucked shoulder blades. As in the squats, it is important to keep your abdomen tense and back straight in whole movement.</string>
+    <string name="benchpressDesc">Starting position - lie on your back on the bench, holding the barbell at your shoulders width, pull your shoulder blades and tighten your belly. We twist our hands into the barbell, we start the movement wuth bending the elbows, leading them as close to the body as possible. Lower the barbell to the level of the lower part of the chest, move down calmly, while slowly inhaling the air. When the barbell touches the chest, we start the upward movement, which should be more dynamic than the lowering movement, during the upward movement, we deflate.</string>
+    <string name="ohpDesc">Starting position - we stand slightly apart, holding the barbell in front of us at the level of the shoulders, pull the shoulder blades, tense the abdomen and buttocks. We start to straighten the elbows by lifting the barbell up to full extension, the elbows should be as close to the body as possible to protect the shoulders from incorrect positioning. During the upward movement, we exhale and, lowering the barbell, inhale.</string>
+    <string name="dietInfo">Diet Basics\n\n\n
+        Let\'s start with the fact that the terms diet does not mean a method of losing weight, but determines our way of nutrition. The basis of any diet is well-chosen calories and macronutrients. It is important to the use right amount of calories in daily meals that we can properly manipulate our body weight, despite attacking us with information about what we cannot eat in the diet, to lose weight, it is not a key aspect of nutrition, we can eat what we want and how much we want but we must fit in our caloric balance. If we want to lose weight, we do not have to give up sweets or white bread, but only make sure that the daily caloric balance is below our needs. However, if we want to gain weight, we only need to make sure our caloric balance is above our needs. A well-chosen diet should also take into account the appropriate need for macro and micro nutrients in food. A daily portion of fruit and vegetables will also allow you to take care of many vitamins that our body needs for everyday functioning. It is worth adding appropriate exercises to the diet to support the effects of our diet. So how do we calculate our caloric balance and where does it come from? Every organism needs energy that will be able to support basic life activities, such as organ work, breathing, digestion, etc. In addition, there is also the matter of daily spontaneous activity, such as walking, jogging, training causes our demand to increase by increasing the number of calories burned during the day.One of the many formulas to calculate our daily caloric requirement is multiplying our weight by 24 and the obtained result additionally multiplied by 1-2 depending on the amount of physical activity, and so we multiply by: 1- lack of physical activity, 1.2- sitting work and light physical activity , 1.4- sedentary work and training twice a week, 1.6- light physical work and training 3-4 times a week, 1.8- physical work and training 5 times a week, 2 - physical work and daily training. For example, a person weighing 80 kg, an office worker, who trains twice a week should consume approx. 80 * 24 * 1.4 = 2688 calories a day. However, it is worth remembering that this is only a theoretical formula and on its basis we can only roughly estimate our demand. The exact need is best checked in practice, see if the mass remains, or does it increase or decrease, and on this basis add or reduce calories in the diet.</string>
+    <string name="squatsURL">https://www.youtube.com/watch?v=bEv6CCg2BC8</string>
+    <string name="deadliftURL">https://www.youtube.com/watch?v=ytGaGIn3SjE</string>
+    <string name="benchpressURL">https://www.youtube.com/watch?v=vcBig73ojpE</string>
+    <string name="ohpURL">https://www.youtube.com/watch?v=_RlRDWO2jfg</string>
+    <string name="blankEmailAndPassError">Fields password and email can not be blank</string>
+    <string name="creatingAccount">Creating Account</string>
+    <string name="usernameReserved">Username is already taken</string>
+    <string name="emailInBase">Email is already in base</string>
+    <string name="updatingPassword">Updating password</string>
+    <string name="passwordUpdated">Password updated</string>
+    <string name="oldPasswordIsIncorrect">Old password is not correct</string>
+    <string name="noMatchingPasswords">Password are not the same</string>
+    <string name="allBlankError">No field can be blank</string>
+</resources>
