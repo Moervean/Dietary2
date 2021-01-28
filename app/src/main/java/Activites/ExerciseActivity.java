@@ -27,6 +27,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
+
 public class ExerciseActivity extends AppCompatActivity {
     private EditText mealDesc;
     private EditText mealWarn;
@@ -36,7 +43,8 @@ public class ExerciseActivity extends AppCompatActivity {
     private Button exerListView;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
-
+    @Inject
+    Consts consts;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,6 +73,12 @@ public class ExerciseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise);
 
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         Locale.setDefault(Locale.ENGLISH);
         mealDesc = (EditText) findViewById(R.id.exerciseDescription);
         mealWarn = (EditText) findViewById(R.id.exerciseWarnings);
@@ -75,7 +89,7 @@ public class ExerciseActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         final java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
         String formatedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
-        mRef = mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(formatedDate);
+        mRef = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.workout).child(formatedDate);
 
 
 
@@ -98,9 +112,9 @@ public class ExerciseActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         long c = snapshot.getChildrenCount();
-                        String posilek = String.valueOf(c) + " trening";
-                        mRef.child(posilek).child("opis").setValue(desc);
-                        mRef.child(posilek).child("uwagi").setValue(warn);
+                        String workout = String.valueOf(c) + " " + consts.workout;
+                        mRef.child(workout).child(consts.desc).setValue(desc);
+                        mRef.child(workout).child(consts.warn).setValue(warn);
                     }
 
                     @Override

@@ -1,30 +1,31 @@
 package Model;
 
 public class Workout {
-    private String opis;
-    private String uwagi;
+    private String desc;
+    private String warn;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getWarn() {
+        return warn;
+    }
+
+    public void setWarn(String warn) {
+        this.warn = warn;
+    }
 
     public Workout() {
     }
 
-    public String getOpis() {
-        return opis;
-    }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
-    }
-
-    public String getUwagi() {
-        return uwagi;
-    }
-
-    public void setUwagi(String uwagi) {
-        this.uwagi = uwagi;
-    }
-
-    public Workout(String opis, String uwagi) {
-        this.opis = opis;
-        this.uwagi = uwagi;
+    public Workout(String desc, String warn) {
+        this.desc = desc;
+        this.warn = warn;
     }
 }

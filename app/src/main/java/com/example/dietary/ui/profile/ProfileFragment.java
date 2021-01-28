@@ -29,42 +29,25 @@ import Activites.ExerciseActivity;
 import Activites.ProtegesList;
 
 public class ProfileFragment extends Fragment {
-    private ProfileViewModel profileViewModel;
-    private ImageView navButton;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private FirebaseStorage mStorage;
     private FirebaseDatabase mDatabase;
-    private DatabaseReference mRef;
-    private StorageReference mStorageRef;
-    private AppBarConfiguration mAppBarConfiguration;
     private Button coaches;
     private Button proteges;
     private Button diet;
     private Button exercises;
-    private DatabaseReference myRef;
-    private final static int GALERY_CODE = 1;
-    private Uri resultUri = null;
-    private StorageTask uploadTask;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
+
         View root = inflater.inflate(R.layout.activity_main_screen, container, false);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        mStorage = FirebaseStorage.getInstance();
         proteges = (Button)root.findViewById(R.id.protegesButtonProfile);
         exercises = (Button)root.findViewById(R.id.exerciseButtonProfile);
         coaches = (Button)root.findViewById(R.id.coachButtonProfile);
-        mStorageRef = FirebaseStorage.getInstance().getReference("ProfilePicutes").child(user.getUid());
-        // navButton = (ImageView) findViewById(R.id.naviButton);
-
-
         mDatabase = FirebaseDatabase.getInstance();
         diet = (Button)root.findViewById(R.id.dietButtonProfile);
-        mRef = mDatabase.getReference().child(mAuth.getCurrentUser().getUid());
 
         exercises.setOnClickListener(new View.OnClickListener() {
             @Override

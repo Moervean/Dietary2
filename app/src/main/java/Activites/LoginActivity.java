@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.dietary.Main2Activity;
+import com.example.dietary.NavigationBar;
 import com.example.dietary.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText email;
     private EditText pass;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +38,6 @@ public class LoginActivity extends AppCompatActivity {
         login = (Button) findViewById(R.id.loginLog);
         pass = (EditText) findViewById(R.id.passLog);
         email = (EditText) findViewById(R.id.emailLog);
-
 //
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onSuccess(AuthResult authResult) {
                             final FirebaseUser us = mAuth.getCurrentUser();
                             if (us.isEmailVerified()) {
-                                Intent intent = new Intent(LoginActivity.this, Main2Activity.class);
+                                Intent intent = new Intent(LoginActivity.this, NavigationBar.class);
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -70,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Toast.makeText(LoginActivity.this, "Pole hasło oraz email nie mogą być puste", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.blankEmailAndPassError), Toast.LENGTH_LONG).show();
                 }
             }
         });

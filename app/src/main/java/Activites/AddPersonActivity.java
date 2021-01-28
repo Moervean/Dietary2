@@ -22,10 +22,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+
+import Dagger.DaggerDaggerConstsComponent;
 import Data.AddTrainerRecyclerAdapter;
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
 import Model.User;
 
-public class addPersonActivity extends AppCompatActivity {
+public class AddPersonActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FirebaseDatabase mDatabase;
@@ -34,10 +41,21 @@ public class addPersonActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private AddTrainerRecyclerAdapter listRecyclerAdapter;
     private List<User> userList;
+    @Inject
+    Consts consts;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_person);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         recyclerView = (RecyclerView)findViewById(R.id.addPersonsRV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -45,7 +63,8 @@ public class addPersonActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         userList = new LinkedList<>();
-        mRef = FirebaseDatabase.getInstance().getReference().child("Friends_request").child(mUser.getUid());
+        mRef = FirebaseDatabase.getInstance().getReference().child(consts.friend_request).child(mUser.getUid());
+
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -55,7 +74,7 @@ public class addPersonActivity extends AppCompatActivity {
 
                 }
                 for(String nazwa : nazwy){
-                    FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                    FirebaseDatabase.getInstance().getReference().child(consts.users).orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             User us = snapshot.getValue(User.class);
@@ -63,7 +82,7 @@ public class addPersonActivity extends AppCompatActivity {
 
                             userList.add(us);
                             if(userList.size()==nazwy.size() ) {
-                                listRecyclerAdapter = new AddTrainerRecyclerAdapter(addPersonActivity.this, userList);
+                                listRecyclerAdapter = new AddTrainerRecyclerAdapter(AddPersonActivity.this, userList);
                                 recyclerView.setAdapter(listRecyclerAdapter);
                                 listRecyclerAdapter.notifyDataSetChanged();
                             }

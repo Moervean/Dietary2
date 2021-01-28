@@ -8,17 +8,7 @@
 
     tools:context="Activites.CreateAccountActivity">
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
 
     <ImageView
         android:id="@+id/imageView6"
@@ -179,7 +169,6 @@
             android:autofillHints=""
             android:background="#11000000"
             android:drawableLeft="@drawable/ic_action_name"
-
             android:ems="10"
             android:hint="@string/Email"
             android:inputType="textEmailAddress"
@@ -195,7 +184,7 @@
             android:drawableLeft="@drawable/lock"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:textSize="15dp" />
 
         <EditText
@@ -208,7 +197,7 @@
             android:drawableLeft="@drawable/lock"
             android:ems="10"
             android:hint="@string/passwordConfirm"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:textSize="15dp" />
 
 

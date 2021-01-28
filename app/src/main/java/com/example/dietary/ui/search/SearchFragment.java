@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.SearchAddRecyclerAdapter;
 import Model.User;
 
@@ -45,16 +48,25 @@ public class SearchFragment extends Fragment {
     private RecyclerView recyclerView;
     private SearchAddRecyclerAdapter listRecyclerAdapter;
     private List<User> userList;
+    @Inject
+    Consts consts;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
         View view = inflater.inflate(R.layout.activity_search,container,false);
         nickname = (EditText) view.findViewById(R.id.enterNickSearch);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase= FirebaseDatabase.getInstance();
-        mRef= mDatabase.getReference().child("users");
+        mRef= mDatabase.getReference().child(consts.users);
         recyclerView = (RecyclerView)view.findViewById(R.id.searchRV);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -89,11 +101,10 @@ public class SearchFragment extends Fragment {
                 mRef.child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.d("Friends",snapshot.getKey());
-                        for(DataSnapshot dataSnapshot : snapshot.child("trenerzy").getChildren()){
+                        for(DataSnapshot dataSnapshot : snapshot.child(consts.coaches).getChildren()){
                             friendsList.add(dataSnapshot.getValue(String.class));
                         }
-                        for(DataSnapshot dataSnapshot : snapshot.child("podopieczni").getChildren()){
+                        for(DataSnapshot dataSnapshot : snapshot.child(consts.proteges).getChildren()){
                             friendsList.add(dataSnapshot.getValue(String.class));
                         }
                     }
@@ -105,7 +116,7 @@ public class SearchFragment extends Fragment {
                 });
 
 
-                mRef.orderByChild("nickname").startAt(nick).endAt(nick + "\uf8ff").addChildEventListener(new ChildEventListener() {
+                mRef.orderByChild(consts.nickname).startAt(nick).endAt(nick + "\uf8ff").addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
@@ -116,8 +127,7 @@ public class SearchFragment extends Fragment {
 
                         }else {
                             for(String s : friendsList){
-                                Log.d("Friends",s);
-                                if(s.equals(snapshot.child("nickname").getValue(String.class))) {
+                                if(s.equals(snapshot.child(consts.nickname).getValue(String.class))) {
                                     check=1;
                                     break;
                                 }
@@ -161,44 +171,6 @@ public class SearchFragment extends Fragment {
 
             }
         });
-
-//        searchStart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String nazwa = nickname.getText().toString();
-//
-//                mRef.orderByChild("nickname").startAt(nazwa).endAt(nazwa + "\uf8ff").addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                        Uzytkownik us = snapshot.getValue(Uzytkownik.class);
-//                        nicknameView.setText(us.getNickname());
-//                        if(us.getImage() != "default")
-//                            Picasso.get().load(us.getImage()).into(profilePicture);
-//                    }
-//
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//            }
-//        });
-
         return view;
     }
 }

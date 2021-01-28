@@ -1,40 +1,40 @@
 package Model;
 
 public class Diet {
-    String opis;
-    String uwagi;
-    String waga;
+    String desc;
+    String warn;
+    String weight;
 
-    public Diet(String opis, String uwagi, String waga) {
-        this.opis = opis;
-        this.uwagi = uwagi;
-        this.waga = waga;
+    public Diet(String desc, String warn, String weight) {
+        this.desc = desc;
+        this.warn = warn;
+        this.weight = weight;
     }
 
     public Diet() {
     }
 
-    public String getOpis() {
-        return opis;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getUwagi() {
-        return uwagi;
+    public String getWarn() {
+        return warn;
     }
 
-    public void setUwagi(String uwagi) {
-        this.uwagi = uwagi;
+    public void setWarn(String warn) {
+        this.warn = warn;
     }
 
-    public String getWaga() {
-        return waga;
+    public String getWeight() {
+        return weight;
     }
 
-    public void setWaga(String waga) {
-        this.waga = waga;
+    public void setWeight(String weight) {
+        this.weight = weight;
     }
 }

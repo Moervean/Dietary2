@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
 
 import com.example.dietary.R;
@@ -24,6 +23,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.ProtegeListRecyclerAdapter;
 import Model.User;
 
@@ -36,19 +41,25 @@ public class ProtegesList extends AppCompatActivity {
     private ProtegeListRecyclerAdapter protegeListRecyclerAdapter;
     private List<User> userList;
     private FirebaseAuth mAuth;
-    private int i =0;
+    @Inject
+    Consts consts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proteges_list);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference().child("users").child(mUser.getUid()).child("podopieczni");
+        mDatabaseReference = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.proteges);
         mDatabaseReference.keepSynced(true);
-
-        i=0;
         userList = new ArrayList<>();
         recyclerView = (RecyclerView)findViewById(R.id.protegesRV);
         recyclerView.setHasFixedSize(true);
@@ -61,22 +72,20 @@ public class ProtegesList extends AppCompatActivity {
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final List<String> nazwy = new LinkedList<String>();
+                final List<String> names = new LinkedList<String>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Log.d("NAZWYY",dataSnapshot.getValue().toString());
-                    nazwy.add(dataSnapshot.getValue().toString());
+                    names.add(dataSnapshot.getValue().toString());
                 }
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
-                for(String nazwa : nazwy){
+                for(String name : names){
 
-                    reference.orderByChild("nickname").equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                    mDatabase.getReference() .child(consts.users).orderByChild("nickname").equalTo(name).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);
-                            if(userList.size()==nazwy.size() ) {
+                            if(userList.size()==names.size() ) {
                                 protegeListRecyclerAdapter = new ProtegeListRecyclerAdapter(ProtegesList.this, userList);
                                 recyclerView.setAdapter(protegeListRecyclerAdapter);
                                 protegeListRecyclerAdapter.notifyDataSetChanged();
@@ -114,24 +123,6 @@ public class ProtegesList extends AppCompatActivity {
             }
         });
     }
-    public interface MyCallback {
-        void onCallback(List<User> value);
-    }
-    public void readData(final MyCallback myCallback, String nazwa) {
-        FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                List<User> usList = new ArrayList<>();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren() ){
-                    User us = snapshot.getValue(User.class);
-                    usList.add(us);
-                }
 
-                myCallback.onCallback(usList);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-    }
 }

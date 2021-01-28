@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.dietary.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +22,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Data.ProtegeListRecyclerAdapter;
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.TrainerListRecyclerViewAdapter;
 import Model.User;
 
@@ -35,18 +39,28 @@ public class CoachesList extends AppCompatActivity {
     private TrainerListRecyclerViewAdapter protegeListRecyclerAdapter;
     private List<User> userList;
     private FirebaseAuth mAuth;
-    private int i =0;
+
+    @Inject
+    Consts consts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coaches_list);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
+
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mDatabase.getReference().child("users").child(mUser.getUid()).child("trenerzy");
+        mDatabaseReference = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.coaches);
         mDatabaseReference.keepSynced(true);
 
-        i=0;
         userList = new ArrayList<>();
         recyclerView = (RecyclerView)findViewById(R.id.coachesRV);
         recyclerView.setHasFixedSize(true);
@@ -59,24 +73,21 @@ public class CoachesList extends AppCompatActivity {
         mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final List<String> nazwy = new LinkedList<String>();
+                final List<String> names = new LinkedList<String>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-                    nazwy.add(dataSnapshot.getValue().toString());
-
-
+                    names.add(dataSnapshot.getValue().toString());
                 }
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users");
-                for(String nazwa : nazwy){
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(consts.users);
+                for(String name : names){
 
-                    reference.orderByChild("nickname").equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                    reference.orderByChild(consts.nickname).equalTo(name).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);
-                            if(userList.size()==nazwy.size() ) {
+                            if(userList.size()==names.size() ) {
                                 protegeListRecyclerAdapter = new TrainerListRecyclerViewAdapter(CoachesList.this, userList);
                                 recyclerView.setAdapter(protegeListRecyclerAdapter);
                                 protegeListRecyclerAdapter.notifyDataSetChanged();
@@ -113,5 +124,11 @@ public class CoachesList extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
     }
 }

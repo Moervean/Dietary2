@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dietary.R;
-import com.example.dietary.ui.home.InvitesViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -26,10 +25,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.AddTrainerRecyclerAdapter;
+import Dagger.AppModule;
+import Dagger.Consts;
 import Model.User;
 
 public class InvitesFragment extends Fragment {
+
     private InvitesViewModel invitesViewModel;
     private RecyclerView recyclerView;
     private FirebaseDatabase mDatabase;
@@ -38,8 +45,19 @@ public class InvitesFragment extends Fragment {
     private FirebaseUser mUser;
     private AddTrainerRecyclerAdapter listRecyclerAdapter;
     private List<User> userList;
+    @Inject
+    Consts consts;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         invitesViewModel =
                 ViewModelProviders.of(this).get(InvitesViewModel.class);
         View root = inflater.inflate(R.layout.activity_add_person, container, false);
@@ -50,24 +68,24 @@ public class InvitesFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         userList = new LinkedList<>();
-        mRef = FirebaseDatabase.getInstance().getReference().child("Friends_request").child(mUser.getUid());
+        mRef = mDatabase.getReference().child(consts.friend_request).child(mUser.getUid());
         mRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final List <String> nazwy = new LinkedList<>();
+                final List <String> names = new LinkedList<>();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    nazwy.add(dataSnapshot.getKey());
+                    names.add(dataSnapshot.getKey());
 
                 }
-                for(String nazwa : nazwy){
-                    FirebaseDatabase.getInstance().getReference().child("users").orderByKey().equalTo(nazwa).addChildEventListener(new ChildEventListener() {
+                for(String name : names){
+                    mDatabase.getReference().child(consts.users).orderByKey().equalTo(name).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                             User us = snapshot.getValue(User.class);
 
 
                             userList.add(us);
-                            if(userList.size()==nazwy.size() ) {
+                            if(userList.size()==names.size() ) {
                                 listRecyclerAdapter = new AddTrainerRecyclerAdapter(getContext(), userList);
                                 recyclerView.setAdapter(listRecyclerAdapter);
                                 listRecyclerAdapter.notifyDataSetChanged();

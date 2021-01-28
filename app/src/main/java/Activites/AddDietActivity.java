@@ -12,10 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -31,6 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Date;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
+
 public class AddDietActivity extends AppCompatActivity {
     private EditText mealDesc;
     private EditText mealWarn;
@@ -42,11 +46,8 @@ public class AddDietActivity extends AppCompatActivity {
     private FirebaseUser mUser;
     private Button add;
     private Button list;
-    private TextView wieghtTV;
-    private RadioGroup radioGroup;
-
-
-    private CheckBox weightCheck;
+    @Inject
+    Consts consts;
 
 
     @Override
@@ -75,6 +76,11 @@ public class AddDietActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_meal);
 
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
 
         Locale.setDefault(Locale.ENGLISH);
         mealDesc = (EditText) findViewById(R.id.exerciseDescription);
@@ -83,14 +89,12 @@ public class AddDietActivity extends AppCompatActivity {
         weight = (EditText) findViewById(R.id.weight);
         mDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        wieghtTV = (TextView)findViewById(R.id.weightTV);
-        radioGroup = (RadioGroup)findViewById(R.id.radiogroup);
 
         list = (Button)findViewById(R.id.dietList);
         mUser = mAuth.getCurrentUser();
         final java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
         String formatedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
-        mRef = mDatabase.getReference().child("users").child(mUser.getUid()).child("dieta").child(formatedDate);
+        mRef = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.diet).child(formatedDate);
 
 
 
@@ -117,10 +121,10 @@ public class AddDietActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         long c = snapshot.getChildrenCount();
-                        String posilek = String.valueOf(c) + " posilek";
-                        mRef.child(posilek).child("opis").setValue(desc);
-                        mRef.child(posilek).child("uwagi").setValue(warn);
-                        mRef.child(posilek).child("waga").setValue(wei);
+                        String dinner = String.valueOf(c) + " " + consts.dinner;
+                        mRef.child(dinner).child(consts.desc).setValue(desc);
+                        mRef.child(dinner).child(consts.warn).setValue(warn);
+                        mRef.child(dinner).child(consts.weight).setValue(wei);
                         mealDesc.setText("");
                         mealWarn.setText("");
                         weight.setText("");

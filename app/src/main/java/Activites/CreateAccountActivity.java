@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.example.dietary.R;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -45,6 +44,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
+
 public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mRef;
@@ -57,25 +63,33 @@ public class CreateAccountActivity extends AppCompatActivity {
     private ProgressDialog mProgress;
     private EditText passConfirm;
     private int i = 0;
-    public int secure = 1;
     private EditText nickname;
-    private AdView mAdView;
     private final static int GALERY_CODE = 1;
     private Uri resultUri = null;
+    @Inject
+    Consts consts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         email = (EditText) findViewById(R.id.emailEt);
         pass = (EditText) findViewById(R.id.passEt2);
         image = (ImageView) findViewById(R.id.profilePicture);
         nickname = (EditText) findViewById(R.id.nicknameET);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
-        mRef = mDatabase.getReference().child("users");
+        mRef = mDatabase.getReference().child(consts.users);
         accCreate = (Button) findViewById(R.id.createButton);
-        mStorage = FirebaseStorage.getInstance().getReference().child("Profile_Pictures");
+        mStorage = FirebaseStorage.getInstance().getReference().child(consts.profile_pictures);
         mProgress = new ProgressDialog(this);
         passConfirm = (EditText)findViewById(R.id.passConfirmET);
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -83,9 +97,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
         });
-        mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,8 +114,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                //TODO: Sprawdzenie jak zapisują się zdjęcia do bazy
-                mProgress.setMessage("Tworzę konto");
+                mProgress.setMessage(getResources().getString(R.string.creatingAccount));
                 mProgress.show();
                 final String nicknameString = nickname.getText().toString().trim();
 
@@ -121,15 +132,15 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                                 List<String> nazwy = new LinkedList<String>();
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    if (dataSnapshot.child("nickname").getValue() != null)
-                                        nazwy.add(dataSnapshot.child("nickname").getValue().toString());
+                                    if (dataSnapshot.child(consts.nickname).getValue() != null)
+                                        nazwy.add(dataSnapshot.child(consts.nickname).getValue().toString());
 
 
                                 }
 
                                 for (String nazwa : nazwy) {
                                     if (nazwa.equalsIgnoreCase(nicknameString)) {
-                                        Toast.makeText(CreateAccountActivity.this, "Nazwa użytkownika jest już zajęta", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(CreateAccountActivity.this, getString(R.string.usernameReserved), Toast.LENGTH_SHORT).show();
                                         mProgress.dismiss();
                                         i = 0;
                                         break;
@@ -161,14 +172,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                             @Override
                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                 if (task.isSuccessful()) {
-                                                                    Map<String, String> uzytkownik = new HashMap<>();
+                                                                    Map<String, String> user = new HashMap<>();
                                                                     if (authResult != null) {
 
 
-                                                                        String myString = getResources().getString(R.string.emailVerificationGood);
-                                                                        Toast.makeText(CreateAccountActivity.this, myString + email.getText().toString().trim(), Toast.LENGTH_LONG).show();
-                                                                        String userid = mAuth.getCurrentUser().getUid();
-                                                                        final DatabaseReference currentUserDb = mRef.child(userid);
+
+                                                                        Toast.makeText(CreateAccountActivity.this, getResources().getString(R.string.emailVerificationGood) + email.getText().toString().trim(), Toast.LENGTH_LONG).show();
+                                                                        final DatabaseReference currentUserDb = mRef.child(mAuth.getCurrentUser().getUid());
                                                                         if (resultUri != null) {
 
                                                                             final String[] myUri = new String[1];
@@ -183,9 +193,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                                             if (task.isSuccessful()) {
                                                                                                 myUri[0] = task.getResult().toString();
                                                                                                 String nick = nicknameString.substring(0,1).toUpperCase() + nicknameString.substring(1).toLowerCase();
-                                                                                                currentUserDb.child("nickname").setValue(nick);
-                                                                                                currentUserDb.child("image").setValue(myUri[0]);
-                                                                                                currentUserDb.child("priv").setValue("all");
+                                                                                                currentUserDb.child(consts.nickname).setValue(nick);
+                                                                                                currentUserDb.child(consts.image).setValue(myUri[0]);
+                                                                                                currentUserDb.child(consts.priv).setValue(consts.all);
                                                                                             }
                                                                                         }
                                                                                     });
@@ -196,10 +206,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                                                                         } else {
                                                                             String nick = nicknameString.substring(0,1).toUpperCase() + nicknameString.substring(1).toLowerCase();
-                                                                            uzytkownik.put("nickname", nick);
-                                                                            uzytkownik.put("image", "default");
-                                                                            uzytkownik.put("priv","all");
-                                                                            currentUserDb.setValue(uzytkownik);
+                                                                            user.put(consts.nickname, nick);
+                                                                            user.put(consts.image, consts._default);
+                                                                            user.put(consts.priv,consts.all);
+                                                                            currentUserDb.setValue(user);
                                                                         }
 
 
@@ -226,7 +236,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(CreateAccountActivity.this, "Email jest już w bazie", Toast.LENGTH_LONG).show();
+                                                Toast.makeText(CreateAccountActivity.this, getString(R.string.emailInBase), Toast.LENGTH_LONG).show();
                                                 mProgress.dismiss();
                                                 i = 0;
                                             }

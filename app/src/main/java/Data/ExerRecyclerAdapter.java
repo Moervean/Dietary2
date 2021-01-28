@@ -1,7 +1,6 @@
 package Data;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,19 @@ import com.example.dietary.R;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Model.Workout;
 
 public class ExerRecyclerAdapter extends RecyclerView.Adapter<ExerRecyclerAdapter.ViewHolder> {
     private List<Workout> exerList;
     private Context context;
+    @Inject
+    Consts consts;
 
     public ExerRecyclerAdapter( Context context,List<Workout> exerList) {
         this.exerList = exerList;
@@ -30,6 +37,13 @@ public class ExerRecyclerAdapter extends RecyclerView.Adapter<ExerRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exer_row,parent,false);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         return new ViewHolder(view,context);
     }
 
@@ -37,10 +51,9 @@ public class ExerRecyclerAdapter extends RecyclerView.Adapter<ExerRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Workout tren = exerList.get(position);
-        holder.exernumber.setText(position + 1 + " trening");
-        holder.exerWarn.setText(tren.getUwagi());
-        holder.exerDesc.setText(tren.getOpis());
-        Log.d("TRENING",tren.getOpis());
+        holder.exernumber.setText(position + 1 + consts.workout);
+        holder.exerWarn.setText(tren.getWarn());
+        holder.exerDesc.setText(tren.getDesc());
 
     }
 

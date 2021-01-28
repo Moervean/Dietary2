@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,18 +29,25 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import Activites.AnotherUserProfile;
 import Activites.EditProtegeDietActivity;
 import Activites.EditProtegeWorkoutActivity;
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeListRecyclerAdapter.ViewHolder> {
     private Context context;
     private List<User> userList;
-    public static final String KEY_NICKNAME="nickname";
     private DatabaseReference mRef;
     private FirebaseUser mUser;
+    @Inject
+    Consts consts;
 
     public ProtegeListRecyclerAdapter(Context context, List<User> lista) {
         this.context = context;
@@ -53,19 +59,25 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.protege_row, parent, false);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         return new ViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final User user = userList.get(position);
-        String imageUrl = null;
+        String imageUrl;
 
         holder.nickname.setText(user.getNickname());
         imageUrl = user.getImage();
-        //TODO: default URl
 
-        if(imageUrl.equals("default")){
+        if(imageUrl.equals(consts._default)){
             holder.profilePicture.setBackground(context.getResources().getDrawable(R.drawable.basic_photo));
         }else {
             Picasso.get().load(imageUrl).into(holder.profilePicture);
@@ -74,7 +86,7 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AnotherUserProfile.class);
-                intent.putExtra(KEY_NICKNAME, user.getNickname());
+                intent.putExtra(consts.nickname, user.getNickname());
                 context.startActivity(intent);
 
             }
@@ -87,18 +99,18 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
                         .setPositiveButton(context.getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mRef.child("users").child(mUser.getUid()).child("podopieczni").addChildEventListener(new ChildEventListener() {
+                                mRef.child(consts.users).child(mUser.getUid()).child(consts.proteges).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
-                                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if(snapshot.getValue().equals(user.getNickname())){
                                             snapshot.getRef().setValue(null);
                                         }
 
-                                        mRef.child("users").orderByChild("nickname").equalTo(user.getNickname()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        mRef.child(consts.users).orderByChild(consts.nickname).equalTo(user.getNickname()).addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                                    dataSnapshot.child("trenerzy").child(mUser.getUid()).getRef().setValue(null);
+                                                    dataSnapshot.child(consts.coaches).child(mUser.getUid()).getRef().setValue(null);
                                                 }
                                             }
 
@@ -110,21 +122,6 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
                                         userList.remove(user);
                                         ProtegeListRecyclerAdapter.this.notifyItemRemoved(position);
                                         ProtegeListRecyclerAdapter.this.notifyItemRangeChanged(position,userList.size());
-                                    }
-
-                                    @Override
-                                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                                    }
-
-                                    @Override
-                                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                                    }
-
-                                    @Override
-                                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                                     }
 
                                     @Override
@@ -149,7 +146,7 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EditProtegeDietActivity.class);
-                intent.putExtra(KEY_NICKNAME, user.getNickname());
+                intent.putExtra(consts.nickname, user.getNickname());
                 context.startActivity(intent);
             }
         });
@@ -158,7 +155,7 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, EditProtegeWorkoutActivity.class);
-                intent.putExtra(KEY_NICKNAME, user.getNickname());
+                intent.putExtra(consts.nickname, user.getNickname());
                 context.startActivity(intent);
             }
         });
@@ -175,7 +172,6 @@ public class ProtegeListRecyclerAdapter extends RecyclerView.Adapter<ProtegeList
         public CircleImageView profilePicture;
         public TextView nickname;
         public ImageView add;
-        public ImageView send;
         public ImageView report;
         private ImageView diet;
         private ImageView workout;

@@ -31,6 +31,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.DietRecyclerAdapter;
 import Model.Diet;
 
@@ -44,13 +50,14 @@ public class DietShow extends AppCompatActivity {
     private Button add;
     private RecyclerView dietRV;
     private DatePicker datePicker;
+    @Inject
+    Consts consts;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_menu,menu);
         return true;
-
     }
 
     @Override
@@ -70,21 +77,27 @@ public class DietShow extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet_show);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         Locale.setDefault(Locale.ENGLISH);
         mDatabase = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         datePicker = (DatePicker) findViewById(R.id.datePicker);
         add= (Button)findViewById(R.id.addDiet);
-        mRef = mDatabase.getReference();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         dietRV = (RecyclerView)findViewById(R.id.dietRV);
         dialog = new DatePickerDialog(DietShow.this);
+        mRef = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.diet);
         final java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-        String formatedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
         dietRV.setHasFixedSize(true);
-        mRef.keepSynced(true);
         dietRV.setLayoutManager(new LinearLayoutManager(this));
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,8 +105,9 @@ public class DietShow extends AppCompatActivity {
                 finish();
             }
         });
+
         String date = dateFormat.format(new Date(datePicker.getYear()-1900,datePicker.getMonth(),datePicker.getDayOfMonth()));
-        mDatabase.getReference().child("users").child(mUser.getUid()).child("dieta").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+        mRef.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Diet>dietList = new LinkedList<>();
@@ -119,7 +133,7 @@ public class DietShow extends AppCompatActivity {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String date = dateFormat.format(new Date(datePicker.getYear()-1900,datePicker.getMonth(),datePicker.getDayOfMonth()));
-                mDatabase.getReference().child("users").child(mUser.getUid()).child("dieta").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                mRef.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         List<Diet>dietList = new LinkedList<>();

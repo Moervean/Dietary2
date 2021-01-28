@@ -40,7 +40,7 @@ public class PassChangeActivity extends AppCompatActivity {
         confirmButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mProgress.setMessage("Aktualizuje Hasło");
+                mProgress.setMessage(getString(R.string.updatingPassword));
                 mProgress.show();
                 if(!TextUtils.isEmpty(oldPass.getText().toString())
                 && !TextUtils.isEmpty(newPass.getText().toString())
@@ -55,7 +55,7 @@ public class PassChangeActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 mAuth.getCurrentUser().updatePassword(newPass.getText().toString());
-                                Toast.makeText(PassChangeActivity.this,"Zaktualizowano hasło",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PassChangeActivity.this,getString(R.string.passwordUpdated),Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
                                 finishActivity(1);
 
@@ -63,22 +63,22 @@ public class PassChangeActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(PassChangeActivity.this,"Stare hasło nie jest poprawne",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PassChangeActivity.this,getString(R.string.oldPasswordIsIncorrect),Toast.LENGTH_SHORT).show();
                                 mProgress.dismiss();
                             }
                         });}else{
-                            Toast.makeText(PassChangeActivity.this,"Podane hasło jest za krótkie (min 6 znaków)",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PassChangeActivity.this,getString(R.string.passError),Toast.LENGTH_SHORT).show();
                             mProgress.dismiss();
                         }
                     }
                     else{
-                        Toast.makeText(PassChangeActivity.this,"Hasła nie są identyczne",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PassChangeActivity.this,getString(R.string.noMatchingPasswords),Toast.LENGTH_SHORT).show();
                         mProgress.dismiss();
                     }
 
                 }
                 else{
-                    Toast.makeText(PassChangeActivity.this,"Żadne z pól nie może być puste",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PassChangeActivity.this,getString(R.string.allBlankError),Toast.LENGTH_SHORT).show();
                     mProgress.dismiss();
                 }
             }

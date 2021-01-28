@@ -1,11 +1,9 @@
 package Data;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,9 +23,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Model.User;
 
 public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRecyclerAdapter.ViewHolder> {
@@ -37,8 +40,8 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference mRef;
-    private Button confirmAdd;
-    private Button declineAdd;
+    @Inject
+    Consts consts;
 
 
     public AddTrainerRecyclerAdapter(Context context, List<User> userList) {
@@ -51,6 +54,13 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trainer_add_row,parent,false);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         return new ViewHolder(view,context);
     }
 
@@ -64,25 +74,22 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
         holder.accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase.getInstance().getReference().child("users").orderByChild("nickname").equalTo(userList.get(position).getNickname()).addChildEventListener(new ChildEventListener() {
+                mRef.orderByChild(consts.nickname).equalTo(userList.get(position).getNickname()).addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-                        //TODO Wyslanie Potiwerdzenia zaproszenia
-
-
                         String s = snapshot.getKey();
                         for(DataSnapshot dataSnapshot :snapshot.getChildren()){
-                            if(dataSnapshot.getKey().equals("nickname"))
+                            if(dataSnapshot.getKey().equals(consts.nickname))
                                 s=dataSnapshot.getValue(String.class);
                         }
-                        DatabaseReference podAdd = mRef.child(mAuth.getCurrentUser().getUid()).child("podopieczni");
+                        DatabaseReference podAdd = mRef.child(mAuth.getCurrentUser().getUid()).child(consts.proteges);
                         podAdd.child(snapshot.getKey()).setValue(s);
 
-                        final DatabaseReference coachAdd = mRef.child(snapshot.getKey()).child("trenerzy");
+                        final DatabaseReference coachAdd = mRef.child(snapshot.getKey()).child(consts.coaches);
                         final String trainerID = snapshot.getKey();
 
-                        mRef.child(mAuth.getCurrentUser().getUid()).child("nickname").addListenerForSingleValueEvent(new ValueEventListener() {
+                        mRef.child(mAuth.getCurrentUser().getUid()).child(consts.nickname).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String trainerNickname = snapshot.getValue(String.class);
@@ -97,11 +104,10 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
                         });
 
 
-                        DatabaseReference removeRequest = FirebaseDatabase.getInstance().getReference().child("Friends_request").child(mUser.getUid()).child(trainerID);
+                        DatabaseReference removeRequest = FirebaseDatabase.getInstance().getReference().child(consts.friend_request).child(mUser.getUid()).child(trainerID);
                         removeRequest.setValue(null);
                         userList.remove(position);
 
-                        //TODO test jak są 2+ osoby
                         AddTrainerRecyclerAdapter.this.notifyItemRemoved(position);
                         AddTrainerRecyclerAdapter.this.notifyItemRangeChanged(position,userList.size());
                     }
@@ -151,7 +157,7 @@ public class AddTrainerRecyclerAdapter extends RecyclerView.Adapter<AddTrainerRe
 
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
-            mRef = mDatabase.getReference().child("users");
+            mRef = mDatabase.getReference().child(consts.users);
 
         }
     }

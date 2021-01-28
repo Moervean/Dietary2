@@ -25,6 +25,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.ExerRecyclerAdapter;
 import Model.Workout;
 
@@ -37,12 +43,22 @@ public class AnotherExerActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatePickerDialog dialog;
     private FirebaseUser mUser;
+    @Inject
+    Consts consts;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_another_exer);
+
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
+
         Locale.setDefault(Locale.ENGLISH);
         datePicker = (DatePicker)findViewById(R.id.datePickerAnotherExer);
         exerRV = (RecyclerView)findViewById(R.id.exerRVAnother);
@@ -51,8 +67,8 @@ public class AnotherExerActivity extends AppCompatActivity {
         dialog = new DatePickerDialog(this);
         final java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
         String formatedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
-        String ID = getIntent().getStringExtra("ID");
-        mRef = mDatabase.getReference().child("users").child(ID).child("trening");
+        String ID = getIntent().getStringExtra(consts.ID);
+        mRef = mDatabase.getReference().child(consts.users).child(ID).child(consts.workout);
         exerRV.setHasFixedSize(true);
         exerRV.setLayoutManager(new LinearLayoutManager(this));
         String data = dateFormat.format(new Date(datePicker.getYear()-1900,datePicker.getMonth(),datePicker.getDayOfMonth()));

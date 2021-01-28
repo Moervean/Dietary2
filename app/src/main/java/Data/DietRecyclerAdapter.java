@@ -38,9 +38,9 @@ public class DietRecyclerAdapter extends RecyclerView.Adapter<DietRecyclerAdapte
         Diet diet = dietList.get(position);
 
 
-        holder.mealWarn.setText(diet.getUwagi());
-        holder.mealDesc.setText(diet.getOpis());
-        holder.weight.setText(diet.getWaga());
+        holder.mealWarn.setText(diet.getWarn());
+        holder.mealDesc.setText(diet.getDesc());
+        holder.weight.setText(diet.getWeight());
         holder.mealNumber.setText(context.getString(R.string.meal) + " " + (position+1));
 
     }

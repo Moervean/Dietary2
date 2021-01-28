@@ -31,12 +31,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import Dagger.AppModule;
+import Dagger.Consts;
+import Dagger.DaggerConstsComponent;
+import Dagger.DaggerDaggerConstsComponent;
 import Data.ExerRecyclerAdapter;
 import Model.Workout;
 
 public class ExerShow extends AppCompatActivity {
 
-    private Button datePicker;
     private RecyclerView rV;
     private ExerRecyclerAdapter exerRecyclerAdapter;
     private DatePickerDialog dialog;
@@ -46,6 +51,8 @@ public class ExerShow extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatePicker picker;
+    @Inject
+    Consts consts;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,9 +83,14 @@ public class ExerShow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exer_show);
 
+        DaggerConstsComponent daggerConstsComponent = DaggerDaggerConstsComponent
+                .builder()
+                .appModule(new AppModule())
+                .build();
+        daggerConstsComponent.inject(this);
+
         Locale.setDefault(Locale.ENGLISH);
         addView = (Button)findViewById(R.id.addExer);
-        //datePicker = (Button)findViewById(R.id.dateExerPicker);
         picker = (DatePicker)findViewById(R.id.datePicker1);
         rV = (RecyclerView)findViewById(R.id.exerRV);
         addView = (Button)findViewById(R.id.addExer);
@@ -89,8 +101,7 @@ public class ExerShow extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         final java.text.DateFormat dateFormat = java.text.DateFormat.getDateInstance();
-        String formatedDate = dateFormat.format(new Date(java.lang.System.currentTimeMillis()).getTime());
-        mRef = mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(formatedDate);
+        mRef = mDatabase.getReference().child(consts.users).child(mUser.getUid()).child(consts.workout);
 
         addView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,17 +112,17 @@ public class ExerShow extends AppCompatActivity {
         });
         String date = dateFormat.format(new Date(picker.getYear() - 1900, picker.getMonth(), picker.getDayOfMonth()));
 
-        mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+        mRef.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Workout> dietList = new LinkedList<>();
+                List<Workout> workoutsList = new LinkedList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Workout diet = dataSnapshot.getValue(Workout.class);
+                    Workout workout = dataSnapshot.getValue(Workout.class);
 
-                    dietList.add(diet);
+                    workoutsList.add(workout);
                 }
 
-                exerRecyclerAdapter = new ExerRecyclerAdapter(ExerShow.this, dietList);
+                exerRecyclerAdapter = new ExerRecyclerAdapter(ExerShow.this, workoutsList);
                 rV.setAdapter(exerRecyclerAdapter);
 
                 exerRecyclerAdapter.notifyDataSetChanged();
@@ -126,17 +137,17 @@ public class ExerShow extends AppCompatActivity {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 String date = dateFormat.format(new Date(year - 1900, monthOfYear, dayOfMonth));
-                mDatabase.getReference().child("users").child(mUser.getUid()).child("trening").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                mRef.child(date).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        List<Workout> dietList = new LinkedList<>();
+                        List<Workout> workoutList = new LinkedList<>();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Workout diet = dataSnapshot.getValue(Workout.class);
 
-                            dietList.add(diet);
+                            workoutList.add(diet);
                         }
 
-                        exerRecyclerAdapter = new ExerRecyclerAdapter(ExerShow.this, dietList);
+                        exerRecyclerAdapter = new ExerRecyclerAdapter(ExerShow.this, workoutList);
                         rV.setAdapter(exerRecyclerAdapter);
 
                         exerRecyclerAdapter.notifyDataSetChanged();
