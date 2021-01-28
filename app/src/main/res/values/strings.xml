@@ -41,7 +41,7 @@
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
     <string name="nav_header_desc" translatable="false">Navigation header</string>
     <string name="action_settings" translatable="false">Settings</string>
-    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="banner_ad_unit_id" translatable="false"></string>
     <string name="menu_home">Ekran główny</string>
     <string name="menu_gallery" translatable="false">Gallery</string>
     <string name="menu_slideshow" translatable="false">Slideshow</string>
@@ -60,7 +60,7 @@
     <string name="exerNumber">Numer Treningu</string>
     <string name="exerWarm">Uwagi do treningu</string>
     <string name="title_activity_maps" translatable="false">Map</string>
-    <string name="map_key" translatable="false">AIzaSyDzdWP0J9qe4I6TvdBQao0bKPC25k7m_O0</string>
+    <string name="map_key" translatable="false"></string>
     <string name="nav_map" translatable="false">Siłownie w pobliżu</string>
     <string name="localisationPremission">Pozwól na dostęp do lokalizacji</string>
     <string name="macros">Makroskładniki</string>
